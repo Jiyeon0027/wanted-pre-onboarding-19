@@ -1,11 +1,12 @@
 import "./index.css";
 import Mainpage from "./pages/mainpage";
+import TodoListContext from "./store/contextApi";
 
 function App() {
   return (
-    <div className="App">
+    <TodoListContext>
       <Mainpage />
-    </div>
+    </TodoListContext>
   );
 }
 

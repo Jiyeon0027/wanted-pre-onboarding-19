@@ -1,35 +1,21 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import PaintTodoList from "../components/List/painTodo";
+import { TodoListStore } from "../store/contextApi";
 
 function Mainpage() {
   const [todo, setTodo] = useState(""); //put todo
-  const [todoList, setTodoList] = useState([]); //todoList
+  const { addTodo } = useContext(TodoListStore);
 
   /** input 제출시 newTodo만들기 */
   const onSubmitEvent = (e) => {
-    console.log(e);
     e.preventDefault();
     const todoObj = {
       id: Date.now(),
       text: todo,
     };
-    setTodoList((prev) => {
-      return [...prev, todoObj];
-    });
-    localStorage.setItem("todos", JSON.stringify(todoList));
+    addTodo(todoObj);
     setTodo("");
-    console.log(todoList);
   };
-
-  const onDeleteButton = (e) => {
-    console.log(e.target.parentNode);
-    const removeThings = e.target.parentNode;
-    const liId = removeThings.id;
-    removeThings.remove();
-    const arr = todoList.filter((e) => liId !== parseInt(e.id));
-    setTodoList(arr);
-    localStorage.setItem("todos", JSON.stringify(todoList));
-  };
-
   return (
     <div className="my-10 w-2/5 mx-auto">
       <form
@@ -50,25 +36,8 @@ function Mainpage() {
           추가
         </button>
       </form>
-      <div className=""></div>
-      <div>
-        <ul className="divide-y-2 divide-dashed divide-gray-300">
-          {todoList?.map((e) => (
-            <li
-              id={e.id}
-              key={e.id}
-              className="m-2 grid grid-cols-[repeat(1,minmax(0,1fr))_9vw] gap-3"
-            >
-              <span className="px-3 py-2 text-lg text-center">{e.text}</span>
-              <button
-                className="bg-gray-100 hover:bg-gray-300 rounded px-3 py-2 border-solid border-2 border-gray-500"
-                onClick={onDeleteButton}
-              >
-                삭제
-              </button>
-            </li>
-          ))}
-        </ul>
+      <div className="">
+        <PaintTodoList />
       </div>
     </div>
   );
