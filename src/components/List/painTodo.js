@@ -1,13 +1,16 @@
-import React, { useContext } from "react";
-import { TodoListStore } from "../../store/contextApi";
+import { useDispatch, useSelector } from "react-redux";
+import { removeTodo } from "../../store/slice";
 
 function PaintTodoList() {
-  const { todoList, removeTodo } = useContext(TodoListStore);
-
+  const todoList = useSelector((state) => {
+    console.log(state);
+    return state.TodoList;
+  });
+  const dispatch = useDispatch();
   const onDeleteButton = (e) => {
     const removeThings = e.target.parentNode;
     const liId = removeThings.id;
-    removeTodo(liId);
+    dispatch(removeTodo(liId));
   };
   //console.log(todoList);
 

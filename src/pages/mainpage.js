@@ -1,10 +1,11 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import PaintTodoList from "../components/List/painTodo";
-import { TodoListStore } from "../store/contextApi";
+import { addTodo } from "../store/slice";
+import { useDispatch } from "react-redux";
 
 function Mainpage() {
   const [todo, setTodo] = useState(""); //put todo
-  const { addTodo } = useContext(TodoListStore);
+  const dispatch = useDispatch();
 
   /** input 제출시 newTodo만들기 */
   const onSubmitEvent = (e) => {
@@ -13,7 +14,7 @@ function Mainpage() {
       id: Date.now(),
       text: todo,
     };
-    addTodo(todoObj);
+    dispatch(addTodo(todoObj));
     setTodo("");
   };
   return (
